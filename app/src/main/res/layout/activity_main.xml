@@ -3,37 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#313131">
 
-    <ImageView
-        android:id="@+id/chat"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
+    <TextView
+        android:id="@+id/okButton2"
+        android:layout_width="34dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/lifebuoy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:src="@drawable/chat" />
+        app:layout_constraintHorizontal_bias="0.159"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:layout_marginTop="7dp"
         android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/chat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/chat"
-        app:layout_constraintVertical_bias="0.444" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <EditText
         android:id="@+id/question"
-        android:layout_width="318dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="112dp"
+        android:layout_width="312dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="116dp"
+        android:background="@drawable/rounded_corners"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,12 +43,43 @@
 
     <TextView
         android:id="@+id/okButton"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
+        android:layout_width="34dp"
+        android:layout_height="37dp"
         android:layout_marginBottom="52dp"
+        android:background="@drawable/burger"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/searchButton"
+        android:layout_width="51dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="54dp"
+        android:background="@drawable/search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchButton"
+        app:srcCompat="@drawable/top_line" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/top_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

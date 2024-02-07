@@ -1,34 +1,40 @@
 package com.example.thepsychologist
 
+import android.R.attr.value
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thepsychologist.Repository.ChatRepository
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import com.example.thepsychologist.network.ApiClient
+import com.example.thepsychologist.response.ChatRequest
+import com.example.thepsychologist.response.ChatResponse
+import com.example.thepsychologist.response.Message
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import java.io.IOException
+import okhttp3.internal.wait
+import java.util.concurrent.CompletableFuture
+
 
 class MainActivity : AppCompatActivity() {
     private val client = OkHttpClient()
     private val messages = mutableListOf<MessageX>()
-    private val chatRepository = ChatRepository()
-
+    private val chatRepository = ChatRepository(this)
+    private val apiClient = ApiClient.getInstance()
+    var i = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         var questionText= findViewById<EditText>(R.id.question)
-        var okButton = findViewById<TextView>(R.id.okButton)
+        var ok = findViewById<TextView>(R.id.okButton)
+
+        var search = findViewById<TextView>(R.id.searchButton)
 
         if (intent.hasExtra("start")) {
 
@@ -40,37 +46,113 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
 
-        messages.add(MessageX("Merhaba, nasılsın?", true))
-        messages.add(MessageX("Merhaba! Ben iyiyim, sen nasılsın?", false))
-        messages.add(MessageX("Ben de iyiyim, teşekkür ederim!", true))
-        messages.add(MessageX("Ben de iyiyim, teşekkür ederim!", false))
+
+        ok.setOnClickListener{
+            var question = questionText.text.toString()
+            messages.add(MessageX(question,true))
+            adapter.notifyDataSetChanged()
+            val completionFuture = createChatCompletion(question)
+            completionFuture.thenApply { answer ->
+                messages.add(MessageX(answer,false))
+                adapter.notifyDataSetChanged()
 
 
-        adapter.notifyDataSetChanged()
+                // Burada cevabı kullanabilirsin
+                // Örneğin, cevabı bir değişkende saklayabilir veya başka bir işlem yapabilirsin.
+            }.exceptionally { throwable ->
+                // CompletableFuture'nin bir hata ile sonuçlanması durumunda çalışacak blok
+                //println("Error occurred: ${throwable.message}")
+                Log.e("Error","data cannot receive")
+                // Hata durumunda yapılacak işlemler buraya yazılabilir.
+                // Örneğin, hata mesajını loglamak, alternatif bir işlem yapmak gibi.
+            }
+
+
+            adapter.notifyDataSetChanged()
+
+
+            }
+
+            adapter.notifyDataSetChanged()
+
+
+            search.setOnClickListener {
+
+                Toast.makeText(this,"Search butona tıklandı",Toast.LENGTH_SHORT).show()
+
+
+            }
+
+
+
         }
         else {
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        okButton.setOnClickListener{
-            var question = questionText.text.toString()
 
-            createChatCompletion(question)
-            /*getResponse(question) {response ->
-               runOnUiThread{
-                   messages.add(MessageX(response,false))
-               }
-            } */
+    private fun createChatCompletion(message : String ): CompletableFuture<String> {
+        val future = CompletableFuture<String>()
+
+        try {
+            val chatRequest = ChatRequest(
+                arrayListOf(
+                    Message(
+                        "You are a Psychologist.You answer me like a Psychologist",
+                        "system"
+
+                    ),
+                    Message(
+                        message,
+                        "user"
+                    )
+                ),
+                "gpt-3.5-turbo"
+            )
+            apiClient.creatChatCımpletion(chatRequest).enqueue(object :
+                retrofit2.Callback<ChatResponse>
+            {
+                override fun onResponse(
+                    call: retrofit2.Call<ChatResponse>,
+                    response: retrofit2.Response<ChatResponse>
+                ) {
+                    val code = response.code()
+                    if(code== 200) {
+
+                        val answer = response.body()?.choices?.get(0)?.message?.content.toString()
+                        future.complete(answer)
+                        Log.d("Real answer" ,answer)
+
+                    }
+                    else {
+                        future.completeExceptionally(Exception("Error response: ${response.errorBody()}"))
+
+                        Log.d("error response",response.errorBody().toString())
+                    }
+
+
+                }
+
+                override fun onFailure(call: retrofit2.Call<ChatResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
         }
+        catch (e:Exception) {
+            future.completeExceptionally(e)
+
+            e.printStackTrace()
+        }
+
+        Log.d("Returning answer" , future.toString())
+        return future
     }
 
-    fun createChatCompletion(message : String ) {
-
-        chatRepository.createChatCompletion(message)
-    }
-
-    fun getResponse( question: String, callback:(String)-> Unit) {
+   /* fun getResponse( question: String, callback:(String)-> Unit) {
         val apiKey="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"
         val url="\n" + "https://api.openai.com/v1/chat/completions"
 
@@ -120,5 +202,5 @@ class MainActivity : AppCompatActivity() {
 
 
         })
-    }
+    } */
 }
