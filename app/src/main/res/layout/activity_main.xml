@@ -8,19 +8,19 @@
 
     <TextView
         android:id="@+id/okButton2"
-        android:layout_width="34dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="44dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/lifebuoy"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.159"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="420dp"
         android:layout_marginTop="7dp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,8 @@
         android:id="@+id/question"
         android:layout_width="312dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="116dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/rounded_corners"
         android:ems="10"
         android:inputType="text"
@@ -42,20 +43,20 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/okButton"
-        android:layout_width="34dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="52dp"
+        android:id="@+id/burger"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/burger"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.811"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question" />
 
     <TextView
         android:id="@+id/searchButton"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="54dp"
         android:background="@drawable/search"
@@ -66,7 +67,7 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="23dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,4 +83,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/top_name" />
+
+    <ImageView
+        android:id="@+id/okButton"
+        android:layout_width="35dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/question"
+        app:srcCompat="@drawable/send" />
 </androidx.constraintlayout.widget.ConstraintLayout>

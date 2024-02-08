@@ -1,22 +1,21 @@
 package com.example.thepsychologist
 
-import android.R.attr.value
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thepsychologist.Repository.ChatRepository
+import com.example.thepsychologist.database.ChatDataSource
 import com.example.thepsychologist.network.ApiClient
 import com.example.thepsychologist.response.ChatRequest
 import com.example.thepsychologist.response.ChatResponse
 import com.example.thepsychologist.response.Message
 import okhttp3.OkHttpClient
-import okhttp3.internal.wait
 import java.util.concurrent.CompletableFuture
 
 
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var questionText= findViewById<EditText>(R.id.question)
-        var ok = findViewById<TextView>(R.id.okButton)
+        var ok = findViewById<ImageView>(R.id.okButton)
 
         var search = findViewById<TextView>(R.id.searchButton)
 
@@ -45,45 +44,41 @@ class MainActivity : AppCompatActivity() {
         val adapter = ChatAdapter(messages)
         recyclerView.adapter = adapter
 
+            val dataSource = ChatDataSource(this)
+            dataSource.open()
 
 
-        ok.setOnClickListener{
+
+            ok.setOnClickListener{
             var question = questionText.text.toString()
             messages.add(MessageX(question,true))
             adapter.notifyDataSetChanged()
+                questionText.text.clear()
+                dataSource.addMessage(1, question)
             val completionFuture = createChatCompletion(question)
             completionFuture.thenApply { answer ->
                 messages.add(MessageX(answer,false))
+                dataSource.addMessage(2,answer)
                 adapter.notifyDataSetChanged()
 
+                val messages: List<Pair<Int, String>> = dataSource.getAllMessages()
 
-                // Burada cevabı kullanabilirsin
-                // Örneğin, cevabı bir değişkende saklayabilir veya başka bir işlem yapabilirsin.
+
+                for (message in messages) {
+                    Log.d("TAG", "Message: $message")
+                }
+
             }.exceptionally { throwable ->
-                // CompletableFuture'nin bir hata ile sonuçlanması durumunda çalışacak blok
-                //println("Error occurred: ${throwable.message}")
+
                 Log.e("Error","data cannot receive")
-                // Hata durumunda yapılacak işlemler buraya yazılabilir.
-                // Örneğin, hata mesajını loglamak, alternatif bir işlem yapmak gibi.
-            }
-
-
-            adapter.notifyDataSetChanged()
-
 
             }
 
             adapter.notifyDataSetChanged()
 
-
-            search.setOnClickListener {
-
-                Toast.makeText(this,"Search butona tıklandı",Toast.LENGTH_SHORT).show()
-
-
             }
 
-
+            adapter.notifyDataSetChanged()
 
         }
         else {
@@ -152,55 +147,5 @@ class MainActivity : AppCompatActivity() {
         return future
     }
 
-   /* fun getResponse( question: String, callback:(String)-> Unit) {
-        val apiKey="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"
-        val url="\n" + "https://api.openai.com/v1/chat/completions"
 
-        val requestBody = """
-            {
-                "model": "gpt-3.5-turbo", 
-                "messages": [
-                  {
-                    "role": "system",
-                    "content": "You are a helpful assistant."
-                  },
-                  {
-                    "role": "user",
-                    "content": $question
-                  }
-    ]
-            }
-        """.trimIndent()
-
-        val request = Request.Builder()
-            .url(url)
-            .addHeader("Content-Type", "application/json")
-            .addHeader("Authorization", "Bearer $apiKey")
-            .post(requestBody.toRequestBody( "application/json".toMediaTypeOrNull()))
-            .build()
-
-
-        client.newCall(request).enqueue(object  : Callback
-        {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Error", "API failed",e)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-
-                if( body != null) {
-                    Log.v("data", body.toString())
-
-
-                }
-                else {
-                    Log.v("data", "empty")
-
-                }
-            }
-
-
-        })
-    } */
 }
