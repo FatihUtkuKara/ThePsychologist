@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture
 
 class MainActivity : AppCompatActivity() {
     private val client = OkHttpClient()
-    private val messages = mutableListOf<MessageX>()
+    private val messagesContent = mutableListOf<MessageContent>()
     private val chatRepository = ChatRepository(this)
     private val apiClient = ApiClient.getInstance()
     var i = 0
@@ -30,65 +30,71 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var questionText= findViewById<EditText>(R.id.question)
+        var questionText = findViewById<EditText>(R.id.question)
         var ok = findViewById<ImageView>(R.id.okButton)
+        var historyButton = findViewById<TextView>(R.id.burger)
 
         var search = findViewById<TextView>(R.id.searchButton)
 
         if (intent.hasExtra("start")) {
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val layoutManager = LinearLayoutManager(this)
-        recyclerView.layoutManager = layoutManager
+            val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+            val layoutManager = LinearLayoutManager(this)
+            recyclerView.layoutManager = layoutManager
 
-        val adapter = ChatAdapter(messages)
-        recyclerView.adapter = adapter
+            val adapter = ChatAdapter(messagesContent)
+            recyclerView.adapter = adapter
 
             val dataSource = ChatDataSource(this)
             dataSource.open()
 
+            historyButton.setOnClickListener {
+                dataSource.close()
+                val intent = Intent(this, HistoryActivity::class.java)
+                startActivity(intent)
+            }
 
 
-            ok.setOnClickListener{
-            var question = questionText.text.toString()
-            messages.add(MessageX(question,true))
-            adapter.notifyDataSetChanged()
+
+            ok.setOnClickListener {
+                var question = questionText.text.toString()
+                messagesContent.add(MessageContent(question, true))
+                adapter.notifyDataSetChanged()
                 questionText.text.clear()
                 dataSource.addMessage(1, question)
-            val completionFuture = createChatCompletion(question)
-            completionFuture.thenApply { answer ->
-                messages.add(MessageX(answer,false))
-                dataSource.addMessage(2,answer)
-                adapter.notifyDataSetChanged()
+                val completionFuture = createChatCompletion(question)
+                completionFuture.thenApply { answer ->
+                    messagesContent.add(MessageContent(answer, false))
+                    dataSource.addMessage(2, answer)
+                    adapter.notifyDataSetChanged()
 
-                val messages: List<Pair<Int, String>> = dataSource.getAllMessages()
+                    val messages: List<Pair<Int, String>> = dataSource.getAllMessages()
 
 
-                for (message in messages) {
-                    Log.d("TAG", "Message: $message")
+                    for (message in messages) {
+                        Log.d("Burada", "Message: $message")
+                    }
+
+                }.exceptionally { throwable ->
+
+                    Log.e("Error", "data cannot receive")
+
                 }
 
-            }.exceptionally { throwable ->
-
-                Log.e("Error","data cannot receive")
+                adapter.notifyDataSetChanged()
 
             }
 
             adapter.notifyDataSetChanged()
 
-            }
-
-            adapter.notifyDataSetChanged()
-
-        }
-        else {
+        } else {
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
         }
     }
 
 
-    private fun createChatCompletion(message : String ): CompletableFuture<String> {
+    private fun createChatCompletion(message: String): CompletableFuture<String> {
         val future = CompletableFuture<String>()
 
         try {
@@ -107,24 +113,22 @@ class MainActivity : AppCompatActivity() {
                 "gpt-3.5-turbo"
             )
             apiClient.creatChatCımpletion(chatRequest).enqueue(object :
-                retrofit2.Callback<ChatResponse>
-            {
+                retrofit2.Callback<ChatResponse> {
                 override fun onResponse(
                     call: retrofit2.Call<ChatResponse>,
                     response: retrofit2.Response<ChatResponse>
                 ) {
                     val code = response.code()
-                    if(code== 200) {
+                    if (code == 200) {
 
                         val answer = response.body()?.choices?.get(0)?.message?.content.toString()
                         future.complete(answer)
-                        Log.d("Real answer" ,answer)
+                        Log.d("Real answer", answer)
 
-                    }
-                    else {
+                    } else {
                         future.completeExceptionally(Exception("Error response: ${response.errorBody()}"))
 
-                        Log.d("error response",response.errorBody().toString())
+                        Log.d("error response", response.errorBody().toString())
                     }
 
 
@@ -136,14 +140,13 @@ class MainActivity : AppCompatActivity() {
 
             })
 
-        }
-        catch (e:Exception) {
+        } catch (e: Exception) {
             future.completeExceptionally(e)
 
             e.printStackTrace()
         }
 
-        Log.d("Returning answer" , future.toString())
+        Log.d("Returning answer", future.toString())
         return future
     }
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ChatAdapter(private val messages: List<MessageX>) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
+class ChatAdapter(private val messages: List<MessageContent>) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
 
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageText: TextView = itemView.findViewById(R.id.messageText)
