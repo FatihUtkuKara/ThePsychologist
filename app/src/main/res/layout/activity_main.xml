@@ -6,21 +6,10 @@
     tools:context=".MainActivity"
     android:background="#313131">
 
-    <TextView
-        android:id="@+id/okButton2"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/lifebuoy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.159"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="550dp"
         android:layout_marginTop="12dp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +21,7 @@
         android:id="@+id/question"
         android:layout_width="335dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_corners"
         android:ems="10"
         android:inputType="text"
@@ -43,22 +32,11 @@
 
     <TextView
         android:id="@+id/burger"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/burger"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.811"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question" />
-
-    <TextView
-        android:id="@+id/searchButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="47dp"
         android:layout_marginEnd="54dp"
-        android:background="@drawable/search"
+        android:background="@drawable/burger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,12 +44,11 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchButton"
-        app:srcCompat="@drawable/top_line" />
+        app:srcCompat="@drawable/top_line"
+        tools:layout_editor_absoluteY="109dp" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -88,7 +65,7 @@
         android:layout_width="35dp"
         android:layout_height="45dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/send" />

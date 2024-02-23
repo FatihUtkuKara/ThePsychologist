@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         var ok = findViewById<ImageView>(R.id.okButton)
         var historyButton = findViewById<TextView>(R.id.burger)
 
-        var search = findViewById<TextView>(R.id.searchButton)
+        var search = findViewById<TextView>(R.id.burger)
 
         if (intent.hasExtra("start")) {
 
