@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         if (intent.hasExtra("start")) {
 
+
             val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
             val layoutManager = LinearLayoutManager(this)
             recyclerView.layoutManager = layoutManager
@@ -47,7 +48,28 @@ class MainActivity : AppCompatActivity() {
 
             val dataSource = ChatDataSource(this)
             dataSource.open()
+            val allMessages: List<Pair<Int, String>> = dataSource.getAllMessages()
 
+            var reversedList = allMessages.reversed()
+            for (pair in reversedList) {
+                val userId = pair.first
+                val message = pair.second
+
+                if ( userId == 1) {
+
+                    messagesContent.add(MessageContent(message,true))
+                    adapter.notifyDataSetChanged()
+
+                    println("User ID: $userId, Message: $message")
+                }
+
+                else if ( userId == 2){
+                    messagesContent.add(MessageContent(message,false))
+                    adapter.notifyDataSetChanged()
+
+
+                }
+            }
             historyButton.setOnClickListener {
                 dataSource.close()
                 val intent = Intent(this, HistoryActivity::class.java)
