@@ -7,6 +7,35 @@
     tools:context=".PayActivity"
     android:background="#313131">
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:srcCompat="@drawable/infinity" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:srcCompat="@drawable/lock" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@drawable/history" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="348dp"
@@ -29,10 +58,10 @@
         android:id="@+id/textView7"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="@font/lexend"
-        android:text="+Unlimited History"
+        android:text="Unlimited questions"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="18sp"
@@ -40,12 +69,40 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
+        android:id="@+id/textView8"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/lexend"
+        android:text="Chat History"
+        android:textColor="@color/white"
+        android:textColorLink="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:fontFamily="@font/lexend"
+        android:text="Powered by Chat-GPT"
+        android:textColor="@color/white"
+        android:textColorLink="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="191dp" />
+
+    <TextView
         android:id="@+id/textView3"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/lexend"
-        android:text="Now there is no wall between you and The Psychologist, you may chat whenever you want."
+        android:text="You can start limitless conversations"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="13sp"
@@ -53,13 +110,27 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
+        android:id="@+id/textView9"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:fontFamily="@font/lexend"
+        android:text="AI remembers"
+        android:textColor="@color/white"
+        android:textColorLink="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
         android:id="@+id/textView5"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/lexend"
-        android:text="If you do not want your previous conversations to get lost, then you will love this feature."
+        android:text="Do not let ads block you,
+                    you block them!"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="13sp"
@@ -73,7 +144,7 @@
         android:layout_marginStart="96dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/lexend"
-        android:text="+Chat History"
+        android:text="No ads"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="18sp"
@@ -102,21 +173,20 @@
         android:id="@+id/textView2"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginStart="96dp"
         android:fontFamily="@font/lexend"
-        android:text="Pay today to see what The Psychologist is capable of, you will receive the below perks when you get our product;"
+        android:text="Accurate answers"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
         android:id="@+id/makePayButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="156dp"
         android:background="@drawable/rounded_pay_button_corners"
         android:contextClickable="true"
         android:gravity="center"
@@ -125,6 +195,41 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/makePayButton3"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/rounded_pay_button_corners"
+        android:contextClickable="true"
+        android:gravity="center"
+        android:text="Make Payment"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/makePayButton2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_pay_button_corners"
+        android:contextClickable="true"
+        android:gravity="center"
+        android:text="Make Payment"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -137,4 +242,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pay_exit" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/gpt_white"
+        tools:layout_editor_absoluteY="184dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
