@@ -25,7 +25,7 @@ class StartActivity : AppCompatActivity() {
 
         skipButton.setOnClickListener{
 
-            val intent = Intent(mContext, PayActivity::class.java)
+            val intent = Intent(mContext, GuideActivity::class.java)
             intent.putExtra("start","start" )
             mContext.startActivity(intent)
             overridePendingTransition(R.anim.slide_left, R.anim.no_animation)

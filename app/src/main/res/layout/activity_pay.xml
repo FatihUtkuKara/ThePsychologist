@@ -183,16 +183,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/lifetimeButton"
+        android:id="@+id/goToAppButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="156dp"
         android:background="@drawable/rounded_pay_button_corners"
         android:contextClickable="true"
         android:gravity="center"
-        android:text="Lifetime Purchase/14.99$"
+        android:text="Lifetime Purchase / 14.99$"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -209,7 +209,7 @@
         android:gravity="center"
         android:text="Monthly Subscription / 3.99$"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
@@ -230,7 +230,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lifetimeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/goToAppButton" />
 
     <TextView
         android:id="@+id/weeklyButton"
@@ -242,7 +242,7 @@
         android:gravity="center"
         android:text="Weekly Subscription / 1.99$"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"

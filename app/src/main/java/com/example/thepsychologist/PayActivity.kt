@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import com.android.billingclient.api.*
 class PayActivity : AppCompatActivity() {
@@ -75,7 +74,7 @@ class PayActivity : AppCompatActivity() {
                 purchaseProduct(productIds[1])
             }
 
-            findViewById<TextView>(R.id.lifetimeButton).setOnClickListener {
+            findViewById<TextView>(R.id.goToAppButton).setOnClickListener {
                 purchaseProduct(productIds[2])
             }
         }
