@@ -23,7 +23,7 @@ class PayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pay)
         if (intent.hasExtra("start")) {
             initialize()
-            makePayButton = findViewById(R.id.makePayButton)
+            makePayButton = findViewById(R.id.withoutPayButton)
 
 
             makePayButton.setOnClickListener{
@@ -67,15 +67,15 @@ class PayActivity : AppCompatActivity() {
                 }
             })
 
-            findViewById<Button>(R.id.button_product1).setOnClickListener {
+            findViewById<TextView>(R.id.weeklyButton).setOnClickListener {
                 purchaseProduct(productIds[0])
             }
 
-            findViewById<Button>(R.id.button_product2).setOnClickListener {
+            findViewById<TextView>(R.id.monthlyButton).setOnClickListener {
                 purchaseProduct(productIds[1])
             }
 
-            findViewById<Button>(R.id.button_product3).setOnClickListener {
+            findViewById<TextView>(R.id.lifetimeButton).setOnClickListener {
                 purchaseProduct(productIds[2])
             }
         }
@@ -102,20 +102,25 @@ class PayActivity : AppCompatActivity() {
             }
         }
 
-        private fun purchaseProduct(productId: String) {
-            val flowParams = BillingFlowParams.newBuilder()
-                .setSkuDetails(
-                    billingClient.querySkuDetails(
-                    SkuDetailsParams.newBuilder()
-                        .setSkusList(listOf(productId))
-                        .setType(BillingClient.SkuType.INAPP)
-                        .build()
-                ).skuDetailsList?.first())
-                .build()
+    private fun purchaseProduct(productId: String) {
+        val skuDetailsParams = SkuDetailsParams.newBuilder()
+            .setSkusList(listOf(productId))
+            .setType(BillingClient.SkuType.INAPP)
+            .build()
 
-            val responseCode = billingClient.launchBillingFlow(this, flowParams).responseCode
-            // Satın alma işlemi başarılı olursa burada işlem yapılabilir
+        billingClient.querySkuDetailsAsync(skuDetailsParams) { billingResult, skuDetailsList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !skuDetailsList.isNullOrEmpty()) {
+                val skuDetails = skuDetailsList.first()
+
+                val flowParams = BillingFlowParams.newBuilder()
+                    .setSkuDetails(skuDetails)
+                    .build()
+
+                val responseCode = billingClient.launchBillingFlow(this@PayActivity, flowParams).responseCode
+                // Satın alma işlemi başarılı olursa burada işlem yapılabilir
+            }
         }
+    }
 
         private fun handlePurchase(purchase: Purchase) {
             // Satın alma işlemi başarılı oldu, işlem yapabilirsiniz

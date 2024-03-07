@@ -87,13 +87,14 @@
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
+        android:layout_marginTop="41dp"
         android:fontFamily="@font/lexend"
         android:text="Powered by Chat-GPT"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="191dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView3"
@@ -124,13 +125,12 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="251dp"
+        android:layout_width="151dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/lexend"
-        android:text="Do not let ads block you,
-                    you block them!"
+        android:text="Do not let ads block you, you block them!"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="13sp"
@@ -183,14 +183,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/makePayButton"
+        android:id="@+id/lifetimeButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="156dp"
         android:background="@drawable/rounded_pay_button_corners"
         android:contextClickable="true"
         android:gravity="center"
-        android:text="Make Payment"
+        android:text="Lifetime Purchase/14.99$"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -200,14 +200,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
-        android:id="@+id/makePayButton3"
+        android:id="@+id/monthlyButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="88dp"
-        android:background="@drawable/rounded_pay_button_corners"
+        android:background="@drawable/rounded_pay_button_corner_gray"
         android:contextClickable="true"
         android:gravity="center"
-        android:text="Make Payment"
+        android:text="Monthly Subscription / 3.99$"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -217,14 +217,30 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
-        android:id="@+id/makePayButton2"
+        android:id="@+id/withoutPayButton"
+        android:layout_width="200dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_pay_button_corner_gray"
+        android:contextClickable="true"
+        android:gravity="center"
+        android:text="Continue without payment"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lifetimeButton" />
+
+    <TextView
+        android:id="@+id/weeklyButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_pay_button_corners"
+        android:background="@drawable/rounded_pay_button_corner_gray"
         android:contextClickable="true"
         android:gravity="center"
-        android:text="Make Payment"
+        android:text="Weekly Subscription / 1.99$"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -248,7 +264,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="34dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/gpt_white"
-        tools:layout_editor_absoluteY="184dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:srcCompat="@drawable/gpt_white" />
 </androidx.constraintlayout.widget.ConstraintLayout>
