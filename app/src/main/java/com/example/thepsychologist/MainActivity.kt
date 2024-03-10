@@ -1,8 +1,10 @@
 package com.example.thepsychologist
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -46,6 +48,8 @@ class MainActivity : AppCompatActivity() {
             val adapter = ChatAdapter(messagesContent)
             recyclerView.adapter = adapter
 
+            recyclerView.scrollToPosition(adapter.itemCount-1)
+
             val dataSource = ChatDataSource(this)
             dataSource.open()
             val allMessages: List<Pair<Int, String>> = dataSource.getAllMessages()
@@ -59,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
                     messagesContent.add(MessageContent(message,true))
                     adapter.notifyDataSetChanged()
+                    recyclerView.scrollToPosition(adapter.itemCount-1)
 
                     println("User ID: $userId, Message: $message")
                 }
@@ -66,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                 else if ( userId == 2){
                     messagesContent.add(MessageContent(message,false))
                     adapter.notifyDataSetChanged()
+                    recyclerView.scrollToPosition(adapter.itemCount-1)
 
 
                 }
@@ -85,10 +91,15 @@ class MainActivity : AppCompatActivity() {
                 questionText.text.clear()
                 dataSource.addMessage(1, question)
                 val completionFuture = createChatCompletion(question)
+                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+                // true döndürerek event'in diğer listener'lara iletilmemesini sağlayın
+                true
                 completionFuture.thenApply { answer ->
                     messagesContent.add(MessageContent(answer, false))
                     dataSource.addMessage(2, answer)
                     adapter.notifyDataSetChanged()
+                    recyclerView.scrollToPosition(adapter.itemCount-1)
 
                     val messages: List<Pair<Int, String>> = dataSource.getAllMessages()
 
