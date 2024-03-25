@@ -17,21 +17,21 @@
         android:theme="@style/Theme.ThePsychologist"
         tools:targetApi="31">
         <activity
-            android:name=".GuideActivity"
+            android:name="com.example.thepsychologist.GuideActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryActivity"
+            android:name="com.example.thepsychologist.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".PayActivity"
+            android:name="com.example.thepsychologist.PayActivity"
             android:exported="false" />
         <activity
-            android:name=".StartActivity"
+            android:name="com.example.thepsychologist.StartActivity"
             android:exported="false"
             android:label="@string/title_activity_start"
             android:theme="@style/Theme.ThePsychologist" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.thepsychologist.MainActivity"
             android:exported="true"> <!-- Burada paket ismini doğru şekilde belirtin -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

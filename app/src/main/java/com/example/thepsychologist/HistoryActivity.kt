@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thepsychologist.database.ChatDataSource
+import com.factory.thepsychologist.R
 
 class HistoryActivity : AppCompatActivity() {
     private val messagesContent = mutableListOf<MessageContent>()

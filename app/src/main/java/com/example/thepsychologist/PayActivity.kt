@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.factory.thepsychologist.R
 import android.widget.TextView
 import com.android.billingclient.api.*
 class PayActivity : AppCompatActivity() {

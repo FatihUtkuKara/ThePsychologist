@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.thepsychologist"
+    namespace = "com.factory.thepsychologist"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.thepsychologist"
+        applicationId = "com.factory.thepsychologist"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

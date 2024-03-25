@@ -17,6 +17,7 @@ import com.example.thepsychologist.network.ApiClient
 import com.example.thepsychologist.response.ChatRequest
 import com.example.thepsychologist.response.ChatResponse
 import com.example.thepsychologist.response.Message
+import com.factory.thepsychologist.R
 import okhttp3.OkHttpClient
 import java.util.concurrent.CompletableFuture
 

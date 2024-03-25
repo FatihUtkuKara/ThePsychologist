@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.factory.thepsychologist.R
 import androidx.navigation.fragment.findNavController
-import com.example.thepsychologist.databinding.FragmentFirstBinding
+import com.factory.thepsychologist.databinding.FragmentFirstBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

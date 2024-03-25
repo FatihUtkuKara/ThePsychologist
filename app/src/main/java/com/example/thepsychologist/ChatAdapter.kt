@@ -3,6 +3,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.factory.thepsychologist.R
 import androidx.recyclerview.widget.RecyclerView
 
 class ChatAdapter(private val messages: List<MessageContent>) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
