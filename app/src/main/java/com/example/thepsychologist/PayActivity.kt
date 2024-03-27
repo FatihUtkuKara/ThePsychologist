@@ -4,15 +4,21 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import com.factory.thepsychologist.R
 import android.widget.TextView
+import android.widget.Toast
 import com.android.billingclient.api.*
-class PayActivity : AppCompatActivity() {
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+class PayActivity : AppCompatActivity()   {
 
     companion object {
         private lateinit var mContext: Context
         private lateinit var billingClient: BillingClient
-        private val productIds = listOf("product_id_1", "product_id_2", "product_id_3")
+        private val productIds = listOf("weekly-plan", "monthly", "lifetime")
         fun initializeContext(context: Context) {
             mContext = context
         }
@@ -34,103 +40,117 @@ class PayActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.slide_in_up, R.anim.no_animation)
             }
 
-            billingClient = BillingClient.newBuilder(this)
-                .enablePendingPurchases()
-                .setListener { billingResult, purchases ->
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-                        for (purchase in purchases) {
-                            if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                                handlePurchase(purchase)
-                            } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
-                                // Satın alma bekleniyor, gerekirse işlem yapabilirsiniz
-                            } else if (purchase.purchaseState == Purchase.PurchaseState.UNSPECIFIED_STATE) {
-                                // Satın alma durumu belirsiz, gerekirse işlem yapabilirsiniz
-                            }
-                        }
-                    } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-                        // Kullanıcı satın alma işlemini iptal etti
-                    } else {
-                        handleBillingError(billingResult.responseCode)
-                    }
-                }
-                .build()
-
-            billingClient.startConnection(object : BillingClientStateListener {
-                override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                        loadProductDetails()
-                    }
-                }
-
-                override fun onBillingServiceDisconnected() {
-                    // Bağlantı kaybedilirse burada yeniden bağlanma işlemi yapılabilir
-                }
-            })
 
             findViewById<TextView>(R.id.weeklyButton).setOnClickListener {
-                purchaseProduct(productIds[0])
+                purchaseProduct("weekly")
             }
 
             findViewById<TextView>(R.id.monthlyButton).setOnClickListener {
-                purchaseProduct(productIds[1])
+                purchaseProduct("monthly")
             }
 
-            findViewById<TextView>(R.id.goToAppButton).setOnClickListener {
-                purchaseProduct(productIds[2])
+            findViewById<TextView>(R.id.yearlyButton).setOnClickListener {
+                purchaseProduct("lifetime")
             }
+
+
+
+
+
         }
-
-
     }
 
 
+    private fun purchaseProduct(productId : String) {
 
-
-
-        private fun loadProductDetails() {
-            val skuDetailsParams = SkuDetailsParams.newBuilder()
-                .setSkusList(productIds)
-                .setType(BillingClient.SkuType.INAPP)
+        val queryProductDetailsParams =
+            QueryProductDetailsParams.newBuilder()
+                .setProductList(
+                    listOf(
+                        QueryProductDetailsParams.Product.newBuilder()
+                            .setProductId(productId)
+                            .setProductType(BillingClient.ProductType.SUBS)
+                            .build())
+                )
                 .build()
 
-            billingClient.querySkuDetailsAsync(skuDetailsParams) { billingResult, skuDetailsList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !skuDetailsList.isNullOrEmpty()) {
-                    skuDetailsList.forEach { skuDetails ->
-                        // SKU detayları burada işlenebilir
+        billingClient.queryProductDetailsAsync(queryProductDetailsParams) {
+                billingResult,
+                productDetailsList ->
+
+            val responseCode = billingResult.responseCode
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && productDetailsList.isNotEmpty()) {
+                // Sorgulama başarılı oldu ve en az bir ürün detayı döndü
+
+                // Ürün ayrıntıları ile yapılacak işlemler
+                val productId = productDetailsList[0]// Ürün ID'si
+                val title = productDetailsList[0].title // Ürün başlığı
+                val productDetails = productDetailsList[0]  // Ürün fiyatı
+                val selectedOfferToken = productDetailsList[0].subscriptionOfferDetails?.get(0)?.offerToken
+                val description = productDetailsList[0].description // Ürün açıklaması
+
+                val productList = listOf(
+                    QueryProductDetailsParams.Product.newBuilder()
+                        .setProductId("product_id_example")
+                        .setProductType(BillingClient.ProductType.SUBS)
+                        .build()
+                )
+                val params = QueryProductDetailsParams.newBuilder()
+                params.setProductList(productList)
+
+
+
+                val productDetailsParamsList = listOf(
+                    selectedOfferToken?.let {
+                        BillingFlowParams.ProductDetailsParams.newBuilder()
+
+                            .setProductDetails(productDetails)
+                            .setOfferToken(it)
+                            .build()
                     }
-                }
-            }
-        }
+                )
 
-    private fun purchaseProduct(productId: String) {
-        val skuDetailsParams = SkuDetailsParams.newBuilder()
-            .setSkusList(listOf(productId))
-            .setType(BillingClient.SkuType.INAPP)
-            .build()
-
-        billingClient.querySkuDetailsAsync(skuDetailsParams) { billingResult, skuDetailsList ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !skuDetailsList.isNullOrEmpty()) {
-                val skuDetails = skuDetailsList.first()
-
-                val flowParams = BillingFlowParams.newBuilder()
-                    .setSkuDetails(skuDetails)
+                val billingFlowParams = BillingFlowParams.newBuilder()
+                    .setProductDetailsParamsList(productDetailsParamsList)
                     .build()
 
-                val responseCode = billingClient.launchBillingFlow(this@PayActivity, flowParams).responseCode
-                // Satın alma işlemi başarılı olursa burada işlem yapılabilir
+                val billingResult = billingClient.launchBillingFlow(this, billingFlowParams)
             }
+         else {
+                Log.e("BillingError", "Query failed with code: $responseCode")
+
+                // Sorgulama başarısız oldu veya ürün detayları boş döndü
+            // Hata durumunu işleme alabilirsiniz
         }
+
     }
 
-        private fun handlePurchase(purchase: Purchase) {
-            // Satın alma işlemi başarılı oldu, işlem yapabilirsiniz
-        }
+    }
 
-        private fun handleBillingError(responseCode: Int) {
-            // Satın alma işlemi başarısız oldu, hata durumunu işleyin
-        }
+
 
     private fun initialize() {
         initializeContext(this)
+
+        val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
+            // Process purchases if needed
+        }
+
+        billingClient = BillingClient.newBuilder(this)
+            .setListener(purchasesUpdatedListener)
+            .enablePendingPurchases()
+            .build()
+
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    // Billing client is ready
+                }
+            }
+
+            override fun onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request
+            }
+        })
     }
-}
+    }

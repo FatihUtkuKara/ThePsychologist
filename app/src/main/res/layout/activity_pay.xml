@@ -183,14 +183,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/goToAppButton"
+        android:id="@+id/yearlyButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="156dp"
         android:background="@drawable/rounded_pay_button_corners"
         android:contextClickable="true"
         android:gravity="center"
-        android:text="Lifetime Purchase / 14.99$"
+        android:text="Yearly Purchase / 14.99$"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -219,8 +219,8 @@
     <TextView
         android:id="@+id/withoutPayButton"
         android:layout_width="200dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="19dp"
         android:background="@drawable/rounded_pay_button_corner_gray"
         android:contextClickable="true"
         android:gravity="center"
@@ -228,9 +228,8 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToAppButton" />
+        app:layout_constraintTop_toBottomOf="@+id/yearlyButton" />
 
     <TextView
         android:id="@+id/weeklyButton"
